@@ -362,6 +362,7 @@ mod build_linked {
     fn extract_libduckdb(archive_path: &Path, destination: &Path) -> Result<(), Box<dyn std::error::Error>> {
         let file = fs::File::open(archive_path)?;
         let mut archive = zip::ZipArchive::new(file)?;
+        archive.validate_header_consistency()?;
         archive.extract(destination)?;
         println!("cargo:warning=Extracted libduckdb to {}", destination.display());
         Ok(())
